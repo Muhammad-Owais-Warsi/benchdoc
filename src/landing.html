@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-template="paper">
+<html lang="en" data-template="kodama">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -13,7 +13,7 @@
   <meta name="twitter:title" content="benchdoc — Markdown reports in one HTML file" />
   <meta name="twitter:description" content="Turn a Markdown file into one clean, self-contained HTML report you can share as a file." />
   <meta name="twitter:image" content="https://muhammad-owais-warsi.github.io/benchdoc/og-image.jpg" />
-  <script>try{var t=localStorage.getItem('benchdoc-template');if(t==='zed')t='docs';if(t==='report')t='paper';if(t==='gruvbox')t='mono';if(t)document.documentElement.setAttribute('data-template',t);if(localStorage.getItem('benchdoc-theme')==='dark')document.documentElement.classList.add('dark')}catch(e){}</script>
+  <script>try{var t=localStorage.getItem('benchdoc-template');if(t==='zed')t='docs';if(t==='report'||t==='paper')t='kodama';if(t==='gruvbox')t='mono';if(t)document.documentElement.setAttribute('data-template',t);if(localStorage.getItem('benchdoc-theme')==='dark')document.documentElement.classList.add('dark')}catch(e){}</script>
   <style>{{css}}</style>
 </head>
 <body>
@@ -22,7 +22,7 @@
       <span class="site-brand">benchdoc</span>
       <span class="site-doc">Markdown reports in one HTML file</span>
       <select class="theme-select" data-theme-select aria-label="Change theme">
-        <option value="paper">Paper</option>
+        <option value="kodama">Kodama</option>
         <option value="docs">Docs</option>
         <option value="mono">Mono</option>
       </select>
@@ -84,7 +84,7 @@ benchdoc report.md -t docs
     try {
       var saved = localStorage.getItem('benchdoc-template');
       if (saved === 'zed') saved = 'docs';
-      if (saved === 'report') saved = 'paper';
+      if (saved === 'report' || saved === 'paper') saved = 'kodama';
       if (saved === 'gruvbox') saved = 'mono';
       if (saved && sel) sel.value = saved;
     } catch (_) {}

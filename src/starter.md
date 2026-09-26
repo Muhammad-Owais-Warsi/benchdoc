@@ -3,7 +3,7 @@ title: My report
 subtitle: One line describing what this covers
 author: You
 date: {{date}}
-template: paper
+template: kodama
 toc: true
 brand: benchdoc
 footer: My report

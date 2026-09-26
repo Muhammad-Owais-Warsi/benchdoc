@@ -137,7 +137,7 @@ function buildToc(md, src, env) {
 function render(source, opts = {}) {
   const { meta, body } = frontmatter.parse(source);
 
-  const template = String(opts.template || meta.template || 'paper');
+  const template = String(opts.template || meta.template || 'kodama');
   const templateFile = path.join(TEMPLATES_DIR, `${template}.css`);
   if (!fs.existsSync(templateFile)) {
     throw new Error(`Unknown template "${template}". Available: ${listTemplates().join(', ')}`);

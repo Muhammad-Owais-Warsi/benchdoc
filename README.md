@@ -29,7 +29,7 @@ benchdoc --help
 
 | Name | Look |
 | --- | --- |
-| `paper` (default) | Warm paper tones |
+| `kodama` (default) | Moss olive tones |
 | `docs` | Neutral minimal |
 | `mono` | Monochrome — grays only |
 

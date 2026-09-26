@@ -13,7 +13,7 @@ Turn a Markdown file into one self-contained HTML report.
 
 Options:
   -o, --out <file>      Output path (default: <input>.html)
-  -t, --template <name> Theme (default: paper, see 'benchdoc themes')
+  -t, --template <name> Theme (default: kodama, see 'benchdoc themes')
   --no-fonts            Skip embedded webfonts (use system fonts)
   -h, --help            Show this help
 
@@ -26,7 +26,7 @@ Frontmatter (optional):
   title: My Report
   author: You
   date: 2026-09-26
-  template: paper
+  template: kodama
   toc: true
   brand: benchdoc
   footer: My Report
