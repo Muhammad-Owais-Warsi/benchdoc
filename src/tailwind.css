@@ -1,0 +1,638 @@
+@import "tailwindcss";
+@import "./themes.css";
+
+@source "./template.html";
+@source "./landing.html";
+@source "./render.js";
+@source "./client.js";
+@source "./plugins/*.js";
+
+/*
+ * benchdoc — Tailwind v4 + tweakcn theme.
+  * Minimal light. All color comes from tweakcn tokens below;
+ * components reference tokens only, so dark mode adapts automatically.
+ * No hand-written palette outside :root.
+ */
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.345 0.028 231);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.345 0.028 231);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.345 0.028 231);
+  --primary: oklch(0.55 0.15 255);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.967 0.003 240);
+  --secondary-foreground: oklch(0.345 0.028 231);
+  --muted: oklch(0.967 0.003 240);
+  --muted-foreground: oklch(0.55 0.02 230);
+  --accent: oklch(0.967 0.003 240);
+  --accent-foreground: oklch(0.345 0.028 231);
+  --destructive: oklch(0.58 0.15 25);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.935 0.004 240);
+  --input: oklch(0.935 0.004 240);
+  --ring: oklch(0.55 0.15 255);
+  --chart-1: oklch(0.55 0.14 255);
+  --chart-2: oklch(0.6 0.12 135);
+  --chart-3: oklch(0.5 0.18 320);
+  --chart-4: oklch(0.65 0.14 55);
+  --chart-5: oklch(0.7 0.1 180);
+  --radius: 0.375rem;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+}
+
+/* Dark tokens apply only with .dark on <html> — light is the default
+   regardless of OS setting. Toggled via the header button. */
+.dark {
+    --background: oklch(0.25 0.005 240);
+    --foreground: oklch(0.87 0.01 230);
+    --card: oklch(0.27 0.005 240);
+    --card-foreground: oklch(0.87 0.01 230);
+    --popover: oklch(0.27 0.005 240);
+    --popover-foreground: oklch(0.87 0.01 230);
+    --primary: oklch(0.75 0.1 250);
+    --primary-foreground: oklch(0.25 0.005 240);
+    --secondary: oklch(0.28 0.005 240);
+    --secondary-foreground: oklch(0.87 0.01 230);
+    --muted: oklch(0.28 0.005 240);
+    --muted-foreground: oklch(0.65 0.015 230);
+    --accent: oklch(0.28 0.005 240);
+    --accent-foreground: oklch(0.87 0.01 230);
+    --destructive: oklch(0.65 0.15 25);
+    --destructive-foreground: oklch(0.25 0.005 240);
+    --border: oklch(0.32 0.008 240);
+    --input: oklch(0.32 0.008 240);
+    --ring: oklch(0.75 0.1 250);
+    --chart-1: oklch(0.7 0.12 255);
+    --chart-2: oklch(0.75 0.14 135);
+    --chart-3: oklch(0.7 0.16 320);
+    --chart-4: oklch(0.75 0.13 60);
+    --chart-5: oklch(0.75 0.1 180);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-serif: var(--font-serif);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  /* No animation anywhere: no smooth scroll, no transitions
+     (including instant light/dark switching), no keyframes. */
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    @apply scroll-auto;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+    font-size: 15.5px;
+    line-height: 1.78;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    @apply bg-primary/15;
+  }
+}
+
+@layer components {
+  /* —— Top bar —— */
+  .site-header {
+    @apply sticky top-0 z-10 border-b border-border bg-background/80 backdrop-blur;
+  }
+
+  .site-header-inner {
+    @apply mx-auto flex max-w-6xl items-center gap-3 px-6 py-3;
+  }
+
+  .site-brand {
+    @apply font-mono text-xs tracking-widest text-muted-foreground uppercase;
+  }
+
+  .site-doc {
+    @apply hidden flex-1 truncate text-right text-sm text-muted-foreground sm:block;
+  }
+
+  .theme-toggle {
+    @apply flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground;
+  }
+
+  .theme-toggle svg {
+    @apply h-4 w-4;
+  }
+
+  .theme-select {
+    @apply shrink-0 cursor-pointer rounded-md border border-border bg-card px-2 py-1.5 text-[13px] text-foreground;
+  }
+
+  .theme-toggle .icon-moon {
+    @apply hidden;
+  }
+
+  .dark .theme-toggle .icon-sun {
+    @apply hidden;
+  }
+
+  .dark .theme-toggle .icon-moon {
+    @apply block;
+  }
+
+  /* —— Hero band —— */
+  .doc-hero {
+    @apply border-b border-border bg-secondary/60;
+  }
+
+  .doc-hero-inner {
+    @apply mx-auto max-w-6xl px-6 py-12 md:grid md:grid-cols-[240px_minmax(0,1fr)] md:gap-10 md:py-16;
+  }
+
+  html.no-toc .doc-hero-inner {
+    @apply block;
+  }
+
+  .doc-hero-inner > * {
+    @apply md:col-start-2;
+  }
+
+  .doc-kicker {
+    @apply mb-3 max-w-2xl text-sm leading-relaxed text-primary;
+  }
+
+  .doc-title {
+    @apply max-w-2xl font-serif text-4xl leading-tight tracking-tight text-balance text-foreground md:text-5xl;
+  }
+
+  .doc-meta {
+    @apply mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground;
+  }
+
+  .doc-meta-sep {
+    @apply text-border;
+  }
+
+  /* —— Sidebar + article —— */
+  .layout {
+    @apply mx-auto max-w-6xl px-6 py-10 md:grid md:grid-cols-[240px_minmax(0,1fr)] md:gap-10 md:py-14;
+  }
+
+  html.no-toc .layout {
+    @apply block;
+  }
+
+  html.no-toc .content {
+    @apply mx-auto;
+  }
+
+  .content {
+    @apply min-w-0 max-w-3xl;
+  }
+
+  /* —— TOC: numbered rail on desktop, chips on mobile —— */
+  .toc {
+    @apply mb-8 md:sticky md:top-24 md:mb-0 md:self-start;
+  }
+
+  .toc-title {
+    @apply mb-3 hidden text-xs font-medium tracking-widest text-muted-foreground uppercase md:block;
+  }
+
+  .toc ul {
+    @apply m-0 flex list-none gap-2 overflow-x-auto p-0 md:block md:space-y-1 md:overflow-visible;
+    counter-reset: toc;
+  }
+
+  .toc li {
+    @apply shrink-0 md:shrink;
+    counter-increment: toc;
+  }
+
+  .toc a {
+    @apply flex items-center gap-2 rounded-full border border-border px-3.5 py-1.5 text-[13px] whitespace-nowrap text-muted-foreground no-underline hover:border-ring/40 hover:text-foreground md:rounded-none md:border-0 md:px-0 md:py-1 md:text-sm;
+  }
+
+  .toc a::before {
+    content: counter(toc, decimal-leading-zero);
+    @apply font-mono text-[11px] text-muted-foreground/70;
+  }
+
+  .toc .toc-l3 a {
+    @apply md:pl-8;
+  }
+
+  /* —— Prose —— */
+  .markdown-body {
+    @apply break-words;
+  }
+
+  .markdown-body > :first-child {
+    @apply mt-0;
+  }
+
+  .markdown-body h1,
+  .markdown-body h2,
+  .markdown-body h3,
+  .markdown-body h4 {
+    @apply scroll-mt-28 font-serif tracking-tight text-balance text-foreground;
+  }
+
+  .markdown-body h1 {
+    @apply mt-0 mb-4 text-2xl;
+  }
+
+  .markdown-body h2 {
+    @apply mt-12 mb-4 text-xl;
+  }
+
+  .markdown-body h3 {
+    @apply mt-9 mb-3 text-lg;
+  }
+
+  .markdown-body h4 {
+    @apply mt-7 mb-2 text-base;
+  }
+
+  .markdown-body p {
+    @apply mb-5;
+  }
+
+  .markdown-body a {
+    @apply text-primary underline decoration-primary/40 underline-offset-4 hover:decoration-primary;
+  }
+
+  .markdown-body strong {
+    @apply font-medium;
+  }
+
+  .markdown-body hr {
+    @apply mx-auto my-12 max-w-48 border-t border-border;
+  }
+
+  .markdown-body blockquote:not(.alert) {
+    @apply my-7 border-l-2 border-border pl-5 text-muted-foreground;
+  }
+
+  .markdown-body blockquote:not(.alert) > :last-child {
+    @apply mb-0;
+  }
+
+  .markdown-body ul,
+  .markdown-body ol {
+    @apply mb-5 pl-6;
+  }
+
+  .markdown-body ul {
+    @apply list-disc;
+  }
+
+  .markdown-body ol {
+    @apply list-decimal;
+  }
+
+  .markdown-body li {
+    @apply my-1.5 pl-1 marker:text-muted-foreground;
+  }
+
+  .markdown-body li > ul,
+  .markdown-body li > ol {
+    @apply mt-1.5 mb-0;
+  }
+
+  /* —— Inline code —— */
+  .markdown-body code {
+    @apply font-mono text-[0.86em];
+  }
+
+  .markdown-body :not(pre) > code {
+    @apply rounded-md bg-muted px-1.5 py-0.5 text-foreground;
+  }
+
+  /* —— Code blocks —— */
+  .code-block {
+    @apply my-7 overflow-hidden rounded-lg bg-muted;
+  }
+
+  .code-header {
+    @apply flex items-center justify-between gap-4 border-b border-border px-4 py-2 text-xs;
+  }
+
+  .code-lang {
+    @apply font-medium text-muted-foreground;
+  }
+
+  .code-copy {
+    @apply cursor-pointer rounded-md px-2.5 py-1 text-xs font-medium text-muted-foreground hover:bg-background hover:text-foreground;
+  }
+
+  .code-copy.is-copied {
+    @apply text-chart-2;
+  }
+
+  .code-block pre {
+    @apply m-0 overflow-x-auto bg-transparent px-5 py-5 text-[13px] leading-7;
+  }
+
+  .code-block pre code {
+    @apply border-0 bg-transparent p-0 font-mono text-foreground;
+  }
+
+  /* —— Tables —— */
+  .markdown-body table {
+    @apply my-7 block w-full overflow-x-auto text-sm leading-relaxed;
+  }
+
+  .markdown-body th,
+  .markdown-body td {
+    @apply border-b border-border px-4 py-2.5 text-left align-top;
+  }
+
+  .markdown-body th {
+    @apply text-xs font-medium tracking-wide whitespace-nowrap text-muted-foreground;
+  }
+
+  .markdown-body td:first-child,
+  .markdown-body th:first-child {
+    @apply min-w-32;
+  }
+
+  .markdown-body tbody tr {
+    @apply hover:bg-muted/50;
+  }
+
+  /* —— Alerts: quiet left-tick notices —— */
+  .alert {
+    @apply my-7 rounded-r-lg border-l-2 bg-muted px-4 py-3 leading-relaxed;
+  }
+
+  .alert > .alert-title {
+    @apply mb-1 text-sm font-medium;
+  }
+
+  .alert > p:last-child,
+  .alert > ul:last-child,
+  .alert > ol:last-child {
+    @apply mb-0;
+  }
+
+  .alert.alert-note {
+    @apply border-chart-1 bg-chart-1/10;
+  }
+  .alert.alert-note .alert-title {
+    @apply text-chart-1;
+  }
+
+  .alert.alert-tip,
+  .alert.alert-result {
+    @apply border-chart-2 bg-chart-2/10;
+  }
+  .alert.alert-tip .alert-title,
+  .alert.alert-result .alert-title {
+    @apply text-chart-2;
+  }
+
+  .alert.alert-important {
+    @apply border-chart-3 bg-chart-3/10;
+  }
+  .alert.alert-important .alert-title {
+    @apply text-chart-3;
+  }
+
+  .alert.alert-warning {
+    @apply border-chart-4 bg-chart-4/10;
+  }
+  .alert.alert-warning .alert-title {
+    @apply text-chart-4;
+  }
+
+  .alert.alert-fail {
+    @apply border-destructive bg-destructive/10;
+  }
+  .alert.alert-fail .alert-title {
+    @apply text-destructive;
+  }
+
+  /* —— Figures —— */
+  .figure {
+    @apply my-9;
+  }
+
+  .figure img {
+    @apply block h-auto max-w-full rounded-lg;
+  }
+
+  .figure figcaption {
+    @apply mt-2.5 text-sm leading-relaxed text-muted-foreground;
+  }
+
+  .markdown-body img {
+    @apply h-auto max-w-full rounded-md;
+  }
+
+  /* —— Details —— */
+  .markdown-body details {
+    @apply my-6 overflow-hidden rounded-lg border border-border bg-card;
+  }
+
+  .markdown-body details summary {
+    @apply flex cursor-pointer list-none items-center gap-2.5 px-5 py-3.5 text-[15px] font-medium text-foreground select-none;
+  }
+
+  .markdown-body details summary::-webkit-details-marker {
+    @apply hidden;
+  }
+
+  .markdown-body details summary::before {
+    content: "";
+    @apply h-1.5 w-1.5 shrink-0 rotate-[-45deg] border-r border-b border-muted-foreground opacity-70;
+  }
+
+  .markdown-body details[open] summary::before {
+    @apply rotate-45;
+  }
+
+  .markdown-body details[open] summary {
+    @apply border-b border-border;
+  }
+
+  .markdown-body details > :not(summary) {
+    @apply mx-5;
+  }
+
+  .markdown-body details > :last-child {
+    @apply mb-5;
+  }
+
+  .markdown-body details > summary + * {
+    @apply mt-4;
+  }
+
+  /* —— Task lists —— */
+  .task-list {
+    @apply list-none pl-1;
+  }
+
+  .task-list-item {
+    @apply flex items-start gap-2.5;
+  }
+
+  .task-list-checkbox {
+    @apply mt-1.5 h-3.5 w-3.5 shrink-0 accent-chart-2;
+  }
+
+  /* —— Footnotes —— */
+  .markdown-body .footnotes {
+    @apply mt-14 border-t border-border pt-6 text-sm leading-relaxed text-muted-foreground;
+  }
+
+  .markdown-body .footnotes-sep {
+    @apply hidden;
+  }
+
+  .markdown-body del {
+    @apply rounded bg-destructive/10 px-1 text-destructive line-through;
+  }
+
+  .markdown-body ins {
+    @apply rounded bg-chart-2/10 px-1 text-chart-2 no-underline;
+  }
+
+  /* —— Syntax: tweakcn charts —— */
+  .hljs-comment,
+  .hljs-quote {
+    @apply text-muted-foreground;
+  }
+
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-addition {
+    @apply text-chart-3;
+  }
+
+  .hljs-number,
+  .hljs-string,
+  .hljs-meta .hljs-meta-string,
+  .hljs-literal,
+  .hljs-doctag,
+  .hljs-regexp {
+    @apply text-chart-2;
+  }
+
+  .hljs-title,
+  .hljs-section,
+  .hljs-name,
+  .hljs-selector-id,
+  .hljs-selector-class {
+    @apply text-chart-1;
+  }
+
+  .hljs-attribute,
+  .hljs-attr,
+  .hljs-variable,
+  .hljs-template-variable,
+  .hljs-class .hljs-title,
+  .hljs-type {
+    @apply text-chart-4;
+  }
+
+  .hljs-symbol,
+  .hljs-bullet,
+  .hljs-subst,
+  .hljs-meta,
+  .hljs-meta .hljs-keyword,
+  .hljs-selector-attr,
+  .hljs-selector-pseudo,
+  .hljs-link {
+    @apply text-chart-5;
+  }
+
+  .hljs-built_in,
+  .hljs-deletion {
+    @apply text-destructive;
+  }
+
+  .hljs-emphasis {
+    @apply italic;
+  }
+
+  .hljs-strong {
+    @apply font-medium;
+  }
+
+  /* —— Footer —— */
+  .site-footer {
+    @apply border-t border-border;
+  }
+
+  .site-footer-inner {
+    @apply mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-6 text-xs text-muted-foreground;
+  }
+}
+
+@media print {
+  .site-header,
+  .site-footer,
+  .theme-toggle,
+  .toc,
+  .code-copy {
+    display: none !important;
+  }
+
+  .doc-hero {
+    border: none;
+  }
+
+  .layout {
+    max-width: none;
+    padding: 0;
+    display: block;
+  }
+
+  .code-block,
+  .alert,
+  .markdown-body details {
+    break-inside: avoid;
+  }
+}

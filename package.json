@@ -1,0 +1,41 @@
+{
+  "name": "benchdoc",
+  "version": "0.1.0",
+  "description": "Turn a Markdown file into one clean, self-contained HTML report you can share as a file.",
+  "license": "MIT",
+  "keywords": ["markdown", "report", "html", "cli", "static-site"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Muhammad-Owais-Warsi/benchdoc.git"
+  },
+  "type": "commonjs",
+  "bin": {
+    "benchdoc": "bin/benchdoc.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "templates",
+    "dist"
+  ],
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/tailwind.css -o ./dist/tailwind.css --minify",
+    "build:landing": "npm run build:css && node bin/landing.js",
+    "prepublishOnly": "npm run build:css",
+    "demo": "npm run build:css && node bin/benchdoc.js examples/report.md -o examples/report.html"
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.1.0",
+    "@fontsource/jetbrains-mono": "^5.1.0",
+    "highlight.js": "^11.10.0",
+    "markdown-it": "^14.1.0",
+    "markdown-it-footnote": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "tailwindcss": "^4.3.3"
+  }
+}
