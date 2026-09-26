@@ -29,8 +29,8 @@ benchdoc --help
 
 | Name | Look |
 | --- | --- |
-| `kodama` (default) | Moss olive tones |
-| `docs` | Neutral minimal |
+| `docs` (default) | Neutral minimal |
+| `kodama` | Moss olive tones |
 | `mono` | Monochrome — grays only |
 
 Pick via `-t` or frontmatter `template:`.
