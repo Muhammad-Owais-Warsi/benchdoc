@@ -3,7 +3,13 @@
   "version": "0.1.0",
   "description": "Turn a Markdown file into one clean, self-contained HTML report you can share as a file.",
   "license": "MIT",
-  "keywords": ["markdown", "report", "html", "cli", "static-site"],
+  "keywords": [
+    "markdown",
+    "report",
+    "html",
+    "cli",
+    "static-site"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Muhammad-Owais-Warsi/benchdoc.git"
@@ -25,8 +31,7 @@
     "demo": "npm run build:css && node bin/benchdoc.js examples/report.md -o examples/report.html"
   },
   "dependencies": {
-    "@fontsource/inter": "^5.1.0",
-    "@fontsource/jetbrains-mono": "^5.1.0",
+    "@fontsource/poppins": "^5.3.0",
     "highlight.js": "^11.10.0",
     "markdown-it": "^14.1.0",
     "markdown-it-footnote": "^4.0.0"

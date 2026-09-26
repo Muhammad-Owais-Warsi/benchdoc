@@ -13,7 +13,8 @@ Turn a Markdown file into one self-contained HTML report.
 
 Options:
   -o, --out <file>      Output path (default: <input>.html)
-  -t, --template <name> Theme (default: report, see \`benchdoc themes\`)
+  -t, --template <name> Theme (default: paper, see 'benchdoc themes')
+  --no-fonts            Skip embedded webfonts (use system fonts)
   -h, --help            Show this help
 
 Commands:
@@ -25,7 +26,7 @@ Frontmatter (optional):
   title: My Report
   author: You
   date: 2026-09-26
-  template: report
+  template: paper
   toc: true
   brand: benchdoc
   footer: My Report
@@ -41,6 +42,7 @@ function parseArgs(argv) {
     if (a === '-h' || a === '--help') args.help = true;
     else if ((a === '-o' || a === '--out') && argv[i + 1]) args.out = argv[++i];
     else if ((a === '-t' || a === '--template') && argv[i + 1]) args.template = argv[++i];
+    else if (a === '--no-fonts') args.embedFonts = false;
     else if (a.startsWith('-')) {
       console.error(`Unknown option: ${a}`);
       usage(1);
@@ -83,6 +85,7 @@ function main() {
     html = render(source, {
       baseDir: path.dirname(input),
       template: args.template,
+      embedFonts: args.embedFonts !== false,
       fallbackTitle: path.basename(input, path.extname(input)),
     });
   } catch (err) {

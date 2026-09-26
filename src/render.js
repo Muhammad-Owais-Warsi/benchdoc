@@ -77,26 +77,24 @@ function loadCompiledCss() {
   return fs.readFileSync(DIST_CSS, 'utf8');
 }
 
-// Opt-in webfonts (themes use system fonts by default for speed).
-function fontFace(family, weight, file) {
+// One font everywhere (Poppins, static latin faces), embedded as
+// base64 so pages stay offline single files without the bulk.
+function fontFace(family, weight, file, style = 'normal') {
   const data = fs.readFileSync(file).toString('base64');
   return (
-    `@font-face{font-family:"${family}";font-style:normal;font-weight:${weight};font-display:swap;` +
+    `@font-face{font-family:"${family}";font-style:${style};font-weight:${weight};font-display:swap;` +
     `src:url(data:font/woff2;base64,${data}) format("woff2")}`
   );
 }
 
 function loadFonts() {
-  const inter = path.join(ROOT, 'node_modules/@fontsource/inter/files');
-  const mono = path.join(ROOT, 'node_modules/@fontsource/jetbrains-mono/files');
-  const faces = [];
-  for (const w of [400, 500, 600, 700]) {
-    faces.push(fontFace('Inter', w, path.join(inter, `inter-latin-${w}-normal.woff2`)));
-  }
-  for (const w of [400, 500]) {
-    faces.push(fontFace('JetBrains Mono', w, path.join(mono, `jetbrains-mono-latin-${w}-normal.woff2`)));
-  }
-  return faces.join('\n');
+  const dir = path.join(ROOT, 'node_modules/@fontsource/poppins/files');
+  return [
+    fontFace('Poppins', 400, path.join(dir, 'poppins-latin-400-normal.woff2')),
+    fontFace('Poppins', 500, path.join(dir, 'poppins-latin-500-normal.woff2')),
+    fontFace('Poppins', 600, path.join(dir, 'poppins-latin-600-normal.woff2')),
+    fontFace('Poppins', 400, path.join(dir, 'poppins-latin-400-italic.woff2'), 'italic'),
+  ].join('\n');
 }
 
 function buildToc(md, src, env) {
@@ -125,21 +123,21 @@ function buildToc(md, src, env) {
 /**
  * Render a Markdown string to a complete standalone HTML document.
  * Styling is Tailwind v4 (compiled, inlined) + tweakcn tokens for the
- * chosen template. System fonts by default; pass embedFonts:true for
- * embedded Inter/JetBrains webfonts.
+ * chosen template. One Poppins webfont embedded by default
+ * (skip with embedFonts:false).
  * @param {string} source Markdown source
  * @param {object} opts
  * @param {string} [opts.baseDir] directory used to resolve relative image paths
  * @param {string} [opts.template] template name (tweakcn token preset in templates/)
  * @param {string} [opts.customCss] extra CSS appended after the template
  * @param {boolean} [opts.embedImages=true] inline local images as data URIs
- * @param {boolean} [opts.embedFonts=false] inline Inter/JetBrains webfonts
+ * @param {boolean} [opts.embedFonts=true] inline the Poppins webfont
  * @param {boolean} [opts.toc] force TOC on/off (default: template decides)
  */
 function render(source, opts = {}) {
   const { meta, body } = frontmatter.parse(source);
 
-  const template = String(opts.template || meta.template || 'report');
+  const template = String(opts.template || meta.template || 'paper');
   const templateFile = path.join(TEMPLATES_DIR, `${template}.css`);
   if (!fs.existsSync(templateFile)) {
     throw new Error(`Unknown template "${template}". Available: ${listTemplates().join(', ')}`);
@@ -186,7 +184,7 @@ function render(source, opts = {}) {
     : '';
 
   const css = [
-    opts.embedFonts === true ? loadFonts() : '',
+    opts.embedFonts !== false ? loadFonts() : '',
     loadCompiledCss(),
     fs.readFileSync(templateFile, 'utf8'),
     opts.customCss || '',
@@ -209,4 +207,4 @@ function render(source, opts = {}) {
     .replace('{{footerTitle}}', () => escapeHtml(footerTitle));
 }
 
-module.exports = { render, listTemplates };
+module.exports = { render, listTemplates, loadFonts };

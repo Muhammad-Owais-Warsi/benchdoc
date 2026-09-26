@@ -8,6 +8,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { loadFonts } = require('../src/render');
 
 const ROOT = path.join(__dirname, '..');
 const DIST_CSS = path.join(ROOT, 'dist', 'tailwind.css');
@@ -42,7 +43,7 @@ function main() {
   const shell = fs.readFileSync(path.join(ROOT, 'src', 'landing.html'), 'utf8');
 
   const html = shell
-    .replace('{{css}}', () => `${compiled}\n${tokens}`)
+    .replace('{{css}}', () => `${loadFonts()}\n${compiled}\n${tokens}`)
     .replace('{{js}}', () => js);
 
   const out = path.join(ROOT, 'index.html');

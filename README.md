@@ -3,13 +3,9 @@
 Turn a Markdown file into **one self-contained HTML report** you can send as a file. No GitHub push, no online paste tool, no React.
 
 ```bash
-npx benchdoc report.md
+benchdoc report.md
 # → report.html
 ```
-
-## Why
-
-You wrote a report in Markdown. You want to share it with your design — callouts, dropdowns, clean typography — as a single file that opens anywhere offline. That's it.
 
 ## Install
 
@@ -35,9 +31,11 @@ benchdoc --help
 
 | Name | Look |
 | --- | --- |
-| `report` (default) | Editorial — giant serif, drop cap, card TOC, pull quotes |
-| `docs` | Docs — top bar, hero band, numbered sidebar rail |
-| `gruvbox` | Retro — mono accents, boxed TOC/code/tables, warm paper |
+| `paper` (default) | Warm paper tones |
+| `docs` | Neutral minimal |
+| `mono` | Monochrome — grays only |
+
+All three share one layout and one font (Poppins); only the colors change.
 
 Pick via `-t` or frontmatter `template:`.
 
@@ -94,7 +92,7 @@ Everything normal Markdown + GFM already supports:
 
 - **Tailwind v4** (compiled at build time, inlined — stays offline, one file) + **tweakcn theme tokens** (`--background`, `--foreground`, … in oklch)
 - No hand-written component CSS: `src/tailwind.css` styles everything with Tailwind utilities/`@apply`; each file in `templates/` is tokens only
-- System fonts by default (fast, ~37KB pages). Opt-in webfonts: `benchdoc input.md --fonts`
+- One font everywhere: Poppins (4 small latin faces, embedded). `--no-fonts` falls back to system stacks
 - Light mode by default (ignores OS setting); dark mode via the header toggle (`.dark` class, remembered in localStorage)
 - Rebuild styles after editing: `npm run build:css` (output: `dist/tailwind.css`, committed)
 - Override anything with `-c your.css`
