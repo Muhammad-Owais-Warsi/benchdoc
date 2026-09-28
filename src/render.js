@@ -147,7 +147,7 @@ function buildToc(md, src, env) {
 function render(source, opts = {}) {
   const { meta, body } = frontmatter.parse(source);
 
-  const theme = String(opts.theme || opts.template || meta.theme || meta.template || 'docs');
+  const theme = String(opts.theme || opts.template || meta.theme || meta.template || 'one');
   const themeFile = path.join(THEMES_DIR, `${theme}.css`);
   if (!fs.existsSync(themeFile)) {
     throw new Error(`Unknown theme "${theme}". Available: ${listThemes().join(', ')}`);

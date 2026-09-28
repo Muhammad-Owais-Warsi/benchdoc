@@ -1,0 +1,63 @@
+/* Template: ayu — ported from Zed's Ayu Light / Ayu Dark
+ * (zed-industries/zed, assets/themes/ayu/ayu.json).
+ * Poppins everywhere, mono chrome (0 radius, no shadows). Colors only differ. */
+
+:root {
+  --background: oklch(0.9911 0 89.8756);
+  --foreground: oklch(0.4899 0.0102 248.0354);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.4899 0.0102 248.0354);
+  --popover: oklch(0.9434 0.0013 286.3744);
+  --popover-foreground: oklch(0.4899 0.0102 248.0354);
+  --primary: oklch(0.674 0.1388 243.9999);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.9434 0.0013 286.3744);
+  --secondary-foreground: oklch(0.4899 0.0102 248.0354);
+  --muted: oklch(0.9434 0.0013 286.3744);
+  --muted-foreground: oklch(0.6455 0.0069 255.495);
+  --accent: oklch(0.9434 0.0013 286.3744);
+  --accent-foreground: oklch(0.4899 0.0102 248.0354);
+  --destructive: oklch(0.7009 0.1567 18.6214);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.8594 0.0026 228.7896);
+  --input: oklch(0.9062 0.0017 247.841);
+  --ring: oklch(0.674 0.1388 243.9999);
+  --chart-1: oklch(0.674 0.1388 243.9999);
+  --chart-2: oklch(0.7079 0.1793 125.6229);
+  --chart-3: oklch(0.7483 0.1599 53.039);
+  --chart-4: oklch(0.7009 0.1567 18.6214);
+  --chart-5: oklch(0.6516 0.1259 306.2182);
+  --font-sans: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-serif: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --radius: 0rem;
+  --tracking-normal: 0em;
+}
+
+/* Dark tokens apply only with .dark on <html> — light stays default. */
+.dark {
+  --background: oklch(0.1727 0.0134 264.1315);
+  --foreground: oklch(0.798 0.01 93.595);
+  --card: oklch(0.2483 0.0117 270.9084);
+  --card-foreground: oklch(0.798 0.01 93.595);
+  --popover: oklch(0.2483 0.0117 270.9084);
+  --popover-foreground: oklch(0.798 0.01 93.595);
+  --primary: oklch(0.7747 0.1292 237.7057);
+  --primary-foreground: oklch(0.1727 0.0134 264.1315);
+  --secondary: oklch(0.2483 0.0117 270.9084);
+  --secondary-foreground: oklch(0.798 0.01 93.595);
+  --muted: oklch(0.2483 0.0117 270.9084);
+  --muted-foreground: oklch(0.63 0.0046 91.4724);
+  --accent: oklch(0.2483 0.0117 270.9084);
+  --accent-foreground: oklch(0.798 0.01 93.595);
+  --destructive: oklch(0.7009 0.1567 18.6214);
+  --destructive-foreground: oklch(0.1727 0.0134 264.1315);
+  --border: oklch(0.3716 0.0053 271.2734);
+  --input: oklch(0.3052 0.0094 268.3603);
+  --ring: oklch(0.7747 0.1292 237.7057);
+  --chart-1: oklch(0.7747 0.1292 237.7057);
+  --chart-2: oklch(0.8243 0.1757 126.0718);
+  --chart-3: oklch(0.7581 0.1631 52.6455);
+  --chart-4: oklch(0.7009 0.1567 18.6214);
+  --chart-5: oklch(0.797 0.1307 306.3305);
+}

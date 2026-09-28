@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="docs">
+<html lang="en" data-theme="one">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -13,7 +13,7 @@
   <meta name="twitter:title" content="benchdoc — Markdown reports in one HTML file" />
   <meta name="twitter:description" content="Turn a Markdown file into one clean, self-contained HTML report you can share as a file." />
   <meta name="twitter:image" content="https://muhammad-owais-warsi.github.io/benchdoc/og-image.jpg" />
-  <script>try{var t=localStorage.getItem('benchdoc-template');if(t==='zed')t='docs';if(t==='report'||t==='paper'||t==='kodama')t='docs';if(t==='gruvbox')t='mono';if(t)document.documentElement.setAttribute('data-theme',t);if(localStorage.getItem('benchdoc-theme')==='dark')document.documentElement.classList.add('dark')}catch(e){}</script>
+  <script>try{var t=localStorage.getItem('benchdoc-template');if(t==='zed')t='docs';if(t==='report'||t==='paper'||t==='kodama')t='docs';if(t==='gruvbox'||t==='mono')t='docs';if(t==='docs'||t==='catppuccin')t='one';if(t)document.documentElement.setAttribute('data-theme',t);if(localStorage.getItem('benchdoc-theme')==='dark')document.documentElement.classList.add('dark')}catch(e){}</script>
   <style>{{css}}</style>
 </head>
 <body>
@@ -21,15 +21,16 @@
     <div class="site-header-inner">
       <span class="site-brand">benchdoc</span>
       <span class="site-doc">Markdown reports in one HTML file</span>
+      <span class="site-controls">
       <select class="theme-select" data-theme-select aria-label="Change theme">
-        <option value="docs">Docs</option>
-        <option value="catppuccin">Catppuccin</option>
-        <option value="mono">Mono</option>
+        <option value="one">One</option>
+        <option value="ayu">Ayu</option>
       </select>
       <button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">
         <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
         <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
       </button>
+      </span>
     </div>
   </header>
 
@@ -85,7 +86,8 @@ benchdoc report.md -t docs
       var saved = localStorage.getItem('benchdoc-template');
       if (saved === 'zed') saved = 'docs';
       if (saved === 'report' || saved === 'paper' || saved === 'kodama') saved = 'docs';
-      if (saved === 'gruvbox') saved = 'mono';
+      if (saved === 'gruvbox' || saved === 'mono') saved = 'docs';
+      if (saved === 'docs' || saved === 'catppuccin') saved = 'one';
       if (saved && sel) sel.value = saved;
     } catch (_) {}
     if (sel) {

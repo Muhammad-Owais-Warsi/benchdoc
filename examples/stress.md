@@ -3,7 +3,7 @@ title: Scorecard with very long headings and a wide results table
 subtitle: Stress fixture for responsive layout — long titles must wrap inside the rail, never over the table
 author: benchdoc
 date: 2026-09-26
-theme: docs
+theme: one
 toc: true
 ---
 

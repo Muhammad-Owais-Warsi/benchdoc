@@ -1,7 +1,7 @@
 ---
 title: Chart components
 subtitle: One fence per type — bars, donut, line
-theme: docs
+theme: one
 toc: false
 ---
 

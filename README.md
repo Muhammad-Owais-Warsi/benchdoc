@@ -17,7 +17,9 @@ npm install -g benchdoc
 
 ```bash
 benchdoc init               # starter report.md in this folder
-benchdoc init notes/q3.md   # starter at a path
+benchdoc init bench         # benchmark starter (report, bench, compare)
+benchdoc init compare ab.md # compare starter at a path
+benchdoc init notes/q3.md   # default starter at a path
 benchdoc input.md
 benchdoc input.md -o out.html
 benchdoc input.md -t docs
@@ -29,9 +31,8 @@ benchdoc --help
 
 | Name | Look |
 | --- | --- |
-| `docs` (default) | Neutral minimal |
-| `catppuccin` | Muted pastel (mauve/lavender) |
-| `mono` | Monochrome — grays only |
+| `one` (default) | Clean light, blue accents |
+| `ayu` | Warm gray with orange/green accents |
 
 Pick via `-t` or frontmatter `theme:`.
 
@@ -108,3 +109,7 @@ Everything normal Markdown + GFM already supports:
 One `.html` file. CSS, fonts, images, and a tiny copy-button script are all inside it. Attach it, dropbox it, email it.
 
 Link sharing comes later.
+
+## Credits
+
+The `one` and `ayu` themes are ported from the [Zed editor](https://github.com/zed-industries/zed) theme assets (`assets/themes/one/one.json` and `assets/themes/ayu/ayu.json`).

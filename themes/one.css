@@ -1,0 +1,63 @@
+/* Template: one — ported from Zed's One Light / One Dark
+ * (zed-industries/zed, assets/themes/one/one.json).
+ * Poppins everywhere, mono chrome (0 radius, no shadows). Colors only differ. */
+
+:root {
+  --background: oklch(0.9851 0 89.8756);
+  --foreground: oklch(0.2651 0.0076 274.6688);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2651 0.0076 274.6688);
+  --popover: oklch(0.9404 0.0013 286.3743);
+  --popover-foreground: oklch(0.2651 0.0076 274.6688);
+  --primary: oklch(0.6062 0.1637 269.1855);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.9404 0.0013 286.3743);
+  --secondary-foreground: oklch(0.2651 0.0076 274.6688);
+  --muted: oklch(0.9404 0.0013 286.3743);
+  --muted-foreground: oklch(0.4611 0.0032 286.2737);
+  --accent: oklch(0.9404 0.0013 286.3743);
+  --accent-foreground: oklch(0.2651 0.0076 274.6688);
+  --destructive: oklch(0.6275 0.1489 30.3311);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.8362 0.0014 286.3702);
+  --input: oklch(0.9039 0.0013 286.373);
+  --ring: oklch(0.6062 0.1637 269.1855);
+  --chart-1: oklch(0.6062 0.1637 269.1855);
+  --chart-2: oklch(0.5935 0.1167 65.2966);
+  --chart-3: oklch(0.56 0.1716 324.7313);
+  --chart-4: oklch(0.6275 0.1489 30.3311);
+  --chart-5: oklch(0.584 0.1094 243.0318);
+  --font-sans: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-serif: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --radius: 0rem;
+  --tracking-normal: 0em;
+}
+
+/* Dark tokens apply only with .dark on <html> — light stays default. */
+.dark {
+  --background: oklch(0.2921 0.014 261.7008);
+  --foreground: oklch(0.7625 0.0184 264.4591);
+  --card: oklch(0.3244 0.0191 264.2624);
+  --card-foreground: oklch(0.7625 0.0184 264.4591);
+  --popover: oklch(0.3244 0.0191 264.2624);
+  --popover-foreground: oklch(0.7625 0.0184 264.4591);
+  --primary: oklch(0.7316 0.1067 250.2581);
+  --primary-foreground: oklch(0.2921 0.014 261.7008);
+  --secondary: oklch(0.3244 0.0191 264.2624);
+  --secondary-foreground: oklch(0.7625 0.0184 264.4591);
+  --muted: oklch(0.3244 0.0191 264.2624);
+  --muted-foreground: oklch(0.7533 0.0198 265.9429);
+  --accent: oklch(0.3244 0.0191 264.2624);
+  --accent-foreground: oklch(0.7625 0.0184 264.4591);
+  --destructive: oklch(0.6589 0.1181 17.4521);
+  --destructive-foreground: oklch(0.2921 0.014 261.7008);
+  --border: oklch(0.4128 0.0211 267.5139);
+  --input: oklch(0.3546 0.0192 260.665);
+  --ring: oklch(0.7316 0.1067 250.2581);
+  --chart-1: oklch(0.7316 0.1067 250.2581);
+  --chart-2: oklch(0.6991 0.077 66.6722);
+  --chart-3: oklch(0.6655 0.1413 314.876);
+  --chart-4: oklch(0.6589 0.1181 17.4521);
+  --chart-5: oklch(0.7277 0.0722 208.4405);
+}

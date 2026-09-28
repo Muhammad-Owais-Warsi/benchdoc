@@ -3,7 +3,7 @@ title: My report
 subtitle: One line describing what this covers
 author: You
 date: {{date}}
-theme: docs
+theme: one
 toc: true
 footer: My report
 ---

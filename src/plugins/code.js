@@ -20,10 +20,18 @@ function plugin(md) {
     const token = tokens[idx];
     const info = (token.info || '').trim();
     const lang = info.split(/\s+/u)[0] || '';
-    if (DATA_LANGS.has(lang.toLowerCase())) return fence(tokens, idx, options, env, self);
-    const isTerminal = TERMINAL.has(lang.toLowerCase());
 
     const highlighted = fence(tokens, idx, options, env, self);
+
+    // Data fences that rendered into components stay toolbar-free.
+    // Their fallbacks (bad/empty data) get the normal code chrome + label.
+    if (DATA_LANGS.has(lang.toLowerCase())) {
+      if (highlighted.includes('token-bar') || highlighted.includes('<figure class="chart')) {
+        return highlighted;
+      }
+    }
+
+    const isTerminal = TERMINAL.has(lang.toLowerCase());
 
     // fence already returns <pre><code>...</code></pre>
     const label = lang || 'code';

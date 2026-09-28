@@ -146,15 +146,19 @@
   }
 
   .site-header-inner {
-    @apply mx-auto flex w-full max-w-6xl items-center gap-3 px-4 py-3 sm:px-6;
+    @apply mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6;
   }
 
   .site-brand {
-    @apply font-mono text-xs tracking-widest text-muted-foreground uppercase;
+    @apply min-w-0 flex-1 truncate font-mono text-sm text-foreground;
   }
 
   .site-doc {
     @apply hidden flex-1 truncate text-right text-sm text-muted-foreground sm:block;
+  }
+
+  .site-controls {
+    @apply flex shrink-0 items-center gap-2;
   }
 
   .theme-toggle {
