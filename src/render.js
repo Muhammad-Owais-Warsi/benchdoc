@@ -16,8 +16,8 @@ const codeBlocks = require('./plugins/code');
 const frontmatter = require('./frontmatter');
 
 const ROOT = path.join(__dirname, '..');
-const THEMES_DIR = path.join(ROOT, 'themes');
 const DIST_CSS = path.join(ROOT, 'dist', 'tailwind.css');
+const { listThemes, listTemplates, THEMES_DIR } = require('./theme-tokens');
 
 const MIME = {
   '.png': 'image/png',
@@ -28,19 +28,6 @@ const MIME = {
   '.webp': 'image/webp',
   '.avif': 'image/avif',
 };
-
-function listThemes() {
-  return fs
-    .readdirSync(THEMES_DIR)
-    .filter((f) => f.endsWith('.css'))
-    .map((f) => f.replace(/\.css$/, ''))
-    .sort();
-}
-
-// Legacy alias.
-function listTemplates() {
-  return listThemes();
-}
 
 function escapeHtml(s) {
   return String(s)

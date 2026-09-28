@@ -9,10 +9,10 @@
 const fs = require('fs');
 const path = require('path');
 const { loadFonts } = require('../src/render');
+const { listThemes, scopedThemeTokens, themeOptions } = require('../src/theme-tokens');
 
 const ROOT = path.join(__dirname, '..');
 const DIST_CSS = path.join(ROOT, 'dist', 'tailwind.css');
-const THEMES_DIR = path.join(ROOT, 'themes');
 
 function main() {
   if (!fs.existsSync(DIST_CSS)) {
@@ -20,33 +20,26 @@ function main() {
     process.exit(1);
   }
   const compiled = fs.readFileSync(DIST_CSS, 'utf8');
-
-  const names = fs
-    .readdirSync(THEMES_DIR)
-    .filter((f) => f.endsWith('.css'))
-    .map((f) => f.replace(/\.css$/, ''))
-    .sort();
-
-  let tokens = '';
-  for (const name of names) {
-    let css = fs.readFileSync(path.join(THEMES_DIR, `${name}.css`), 'utf8');
-    css = css.replace(/\/\*[\s\S]*?\*\//g, ''); // strip comments (may mention .dark)
-    css = css
-      .split(':root')
-      .join(`[data-theme="${name}"]`)
-      .split('.dark')
-      .join(`[data-theme="${name}"].dark`);
-    tokens += css + '\n';
-  }
+  const tokens = scopedThemeTokens();
 
   const js = fs.readFileSync(path.join(ROOT, 'src', 'client.js'), 'utf8');
   const shell = fs.readFileSync(path.join(ROOT, 'src', 'landing.html'), 'utf8');
 
+  const names = listThemes();
+  const defaultTheme = names.includes('one') ? 'one' : names[0];
   const html = shell
+    .split('{{landingThemeOptions}}')
+    .join(themeOptions(defaultTheme))
     .replace('{{css}}', () => `${loadFonts()}\n${compiled}\n${tokens}`)
-    .replace('{{js}}', () => js);
+    .replace('{{js}}', () => js)
+    .split('data-theme="one"')
+    .join(`data-theme="${defaultTheme}"`);
 
   const out = path.join(ROOT, 'index.html');
+  if (html.includes('{{')) {
+    console.error('landing.html placeholders were mangled (look for broken {{...}}). Fix src/landing.html first.');
+    process.exit(1);
+  }
   fs.writeFileSync(out, html, 'utf8');
   console.log(`Wrote ${out}`);
 }
