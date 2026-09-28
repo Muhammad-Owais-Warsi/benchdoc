@@ -10,11 +10,13 @@ const alerts = require('./plugins/alerts');
 const taskLists = require('./plugins/tasklists');
 const anchors = require('./plugins/anchors');
 const figures = require('./plugins/figures');
+const tokens = require('./plugins/tokens');
+const charts = require('./plugins/charts');
 const codeBlocks = require('./plugins/code');
 const frontmatter = require('./frontmatter');
 
 const ROOT = path.join(__dirname, '..');
-const TEMPLATES_DIR = path.join(ROOT, 'templates');
+const THEMES_DIR = path.join(ROOT, 'themes');
 const DIST_CSS = path.join(ROOT, 'dist', 'tailwind.css');
 
 const MIME = {
@@ -27,12 +29,17 @@ const MIME = {
   '.avif': 'image/avif',
 };
 
-function listTemplates() {
+function listThemes() {
   return fs
-    .readdirSync(TEMPLATES_DIR)
+    .readdirSync(THEMES_DIR)
     .filter((f) => f.endsWith('.css'))
     .map((f) => f.replace(/\.css$/, ''))
     .sort();
+}
+
+// Legacy alias.
+function listTemplates() {
+  return listThemes();
 }
 
 function escapeHtml(s) {
@@ -65,6 +72,8 @@ function createMarkdown(opts) {
   md.use(taskLists);
   md.use(anchors);
   md.use(figures, { baseDir: opts.baseDir, embed: opts.embedImages, mime: MIME });
+  md.use(tokens);
+  md.use(charts);
   md.use(codeBlocks);
 
   return md;
@@ -123,24 +132,25 @@ function buildToc(md, src, env) {
 /**
  * Render a Markdown string to a complete standalone HTML document.
  * Styling is Tailwind v4 (compiled, inlined) + tweakcn tokens for the
- * chosen template. One Poppins webfont embedded by default
+ * chosen theme. One Poppins webfont embedded by default
  * (skip with embedFonts:false).
  * @param {string} source Markdown source
  * @param {object} opts
  * @param {string} [opts.baseDir] directory used to resolve relative image paths
- * @param {string} [opts.template] template name (tweakcn token preset in templates/)
- * @param {string} [opts.customCss] extra CSS appended after the template
+ * @param {string} [opts.theme] theme name (tweakcn token preset in themes/)
+ * @param {string} [opts.template] legacy alias for opts.theme
+ * @param {string} [opts.customCss] extra CSS appended after the theme
  * @param {boolean} [opts.embedImages=true] inline local images as data URIs
  * @param {boolean} [opts.embedFonts=true] inline the Poppins webfont
- * @param {boolean} [opts.toc] force TOC on/off (default: template decides)
+ * @param {boolean} [opts.toc] force TOC on/off (default: theme decides)
  */
 function render(source, opts = {}) {
   const { meta, body } = frontmatter.parse(source);
 
-  const template = String(opts.template || meta.template || 'docs');
-  const templateFile = path.join(TEMPLATES_DIR, `${template}.css`);
-  if (!fs.existsSync(templateFile)) {
-    throw new Error(`Unknown template "${template}". Available: ${listTemplates().join(', ')}`);
+  const theme = String(opts.theme || opts.template || meta.theme || meta.template || 'docs');
+  const themeFile = path.join(THEMES_DIR, `${theme}.css`);
+  if (!fs.existsSync(themeFile)) {
+    throw new Error(`Unknown theme "${theme}". Available: ${listThemes().join(', ')}`);
   }
 
   const md = createMarkdown({
@@ -159,9 +169,8 @@ function render(source, opts = {}) {
   }
   if (!title) title = opts.fallbackTitle || 'Document';
 
-  // Chrome defaults: brand + footer title come from frontmatter,
-  // otherwise fall back to sensible defaults (never empty).
-  const brand = meta.brand || 'benchdoc';
+  // Header slot: the document title, or benchdoc when there is none.
+  const headerTitle = (meta.title || /^[#]\s+/m.test(body)) ? title : 'benchdoc';
   const footerTitle = meta.footer || title;
 
   const wantToc =
@@ -169,42 +178,42 @@ function render(source, opts = {}) {
       ? opts.toc
       : meta.toc !== undefined
         ? String(meta.toc) !== 'false'
-        : null; // null = template default (CSS decides whether to show)
+        : null; // null = theme default (CSS decides whether to show)
   const toc = wantToc === false ? '' : buildToc(md, body, env);
 
   const metaBits = [];
   if (meta.author) metaBits.push(`<span class="meta-author">${escapeHtml(meta.author)}</span>`);
   if (meta.date) metaBits.push(`<time class="meta-date">${escapeHtml(meta.date)}</time>`);
   const hero = meta.title
-    ? `<section class="doc-hero"><div class="doc-hero-inner">` +
-      (meta.subtitle ? `<p class="doc-kicker">${escapeHtml(meta.subtitle)}</p>` : '') +
-      `<h1 class="doc-title">${escapeHtml(meta.title)}</h1>` +
-      (metaBits.length ? `<div class="doc-meta">${metaBits.join('<span class="doc-meta-sep">·</span>')}</div>` : '') +
-      `</div></section>`
-    : '';
+        ? `<section class="doc-hero"><div class="doc-hero-inner">` +
+          (meta.subtitle ? `<p class="doc-kicker">${escapeHtml(meta.subtitle)}</p>` : '') +
+          `<h1 class="doc-title">${escapeHtml(meta.title)}</h1>` +
+          (metaBits.length ? `<div class="doc-meta">${metaBits.join('<span class="doc-meta-sep">·</span>')}</div>` : '') +
+          `</div></section>`
+        : '';
 
   const css = [
     opts.embedFonts !== false ? loadFonts() : '',
     loadCompiledCss(),
-    fs.readFileSync(templateFile, 'utf8'),
+    fs.readFileSync(themeFile, 'utf8'),
     opts.customCss || '',
   ].join('\n');
 
   const js = fs.readFileSync(path.join(__dirname, 'client.js'), 'utf8');
 
-  const shell = fs.readFileSync(path.join(__dirname, 'template.html'), 'utf8');
+  const shell = fs.readFileSync(path.join(__dirname, 'theme.html'), 'utf8');
 
   return shell
     .split('{{title}}').join(escapeHtml(title))
-    .replace('{{template}}', escapeHtml(template))
+    .replace('{{theme}}', escapeHtml(theme))
     .replace('{{hasToc}}', toc ? 'has-toc' : 'no-toc')
     .replace('{{css}}', () => css)
     .replace('{{js}}', () => js)
     .replace('{{toc}}', () => toc)
     .replace('{{hero}}', () => hero)
     .replace('{{body}}', () => html)
-    .replace('{{brand}}', () => escapeHtml(brand))
+    .replace('{{headerTitle}}', () => escapeHtml(headerTitle))
     .replace('{{footerTitle}}', () => escapeHtml(footerTitle));
 }
 
-module.exports = { render, listTemplates, loadFonts };
+module.exports = { render, listThemes, listTemplates, loadFonts };

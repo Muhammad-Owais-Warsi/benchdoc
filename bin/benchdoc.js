@@ -3,7 +3,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { render, listTemplates } = require('../src/render');
+const { render, listThemes } = require('../src/render');
 
 function usage(code = 0) {
   const out = code === 0 ? console.log : console.error;
@@ -13,7 +13,7 @@ Turn a Markdown file into one self-contained HTML report.
 
 Options:
   -o, --out <file>      Output path (default: <input>.html)
-  -t, --template <name> Theme (default: docs, see 'benchdoc themes')
+  -t, --theme <name>   Theme (default: docs, see 'benchdoc themes')
   --no-fonts            Skip embedded webfonts (use system fonts)
   -h, --help            Show this help
 
@@ -26,9 +26,8 @@ Frontmatter (optional):
   title: My Report
   author: You
   date: 2026-09-26
-  template: docs
+  theme: docs
   toc: true
-  brand: benchdoc
   footer: My Report
   ---
 `);
@@ -41,7 +40,7 @@ function parseArgs(argv) {
     const a = argv[i];
     if (a === '-h' || a === '--help') args.help = true;
     else if ((a === '-o' || a === '--out') && argv[i + 1]) args.out = argv[++i];
-    else if ((a === '-t' || a === '--template') && argv[i + 1]) args.template = argv[++i];
+    else if ((a === '-t' || a === '--theme' || a === '--template') && argv[i + 1]) args.theme = argv[++i];
     else if (a === '--no-fonts') args.embedFonts = false;
     else if (a.startsWith('-')) {
       console.error(`Unknown option: ${a}`);
@@ -55,7 +54,7 @@ function main() {
   const args = parseArgs(process.argv.slice(2));
 
   if (args._[0] === 'themes' && args._.length === 1) {
-    console.log(listTemplates().join('\n'));
+    console.log(listThemes().join('\n'));
     return;
   }
   if (args._[0] === 'init' && args._.length <= 2) {
@@ -84,7 +83,7 @@ function main() {
   try {
     html = render(source, {
       baseDir: path.dirname(input),
-      template: args.template,
+      theme: args.theme,
       embedFonts: args.embedFonts !== false,
       fallbackTitle: path.basename(input, path.extname(input)),
     });

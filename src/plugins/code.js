@@ -6,6 +6,9 @@
  */
 const TERMINAL = new Set(['bash', 'sh', 'shell', 'console', 'terminal', 'zsh', 'powershell', 'ps1', 'cmd']);
 
+// Fence languages owned by other plugins (see tokens.js, charts.js).
+const DATA_LANGS = new Set(['tokens', 'chart', 'donut', 'line']);
+
 function plugin(md) {
   const fence =
     md.renderer.rules.fence ||
@@ -17,6 +20,7 @@ function plugin(md) {
     const token = tokens[idx];
     const info = (token.info || '').trim();
     const lang = info.split(/\s+/u)[0] || '';
+    if (DATA_LANGS.has(lang.toLowerCase())) return fence(tokens, idx, options, env, self);
     const isTerminal = TERMINAL.has(lang.toLowerCase());
 
     const highlighted = fence(tokens, idx, options, env, self);

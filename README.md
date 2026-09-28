@@ -30,10 +30,10 @@ benchdoc --help
 | Name | Look |
 | --- | --- |
 | `docs` (default) | Neutral minimal |
-| `kodama` | Moss olive tones |
+| `catppuccin` | Muted pastel (mauve/lavender) |
 | `mono` | Monochrome — grays only |
 
-Pick via `-t` or frontmatter `template:`.
+Pick via `-t` or frontmatter `theme:`.
 
 ### Frontmatter (optional)
 
@@ -43,8 +43,8 @@ title: Latency regression
 subtitle: main vs release/2.4
 author: You
 date: 2026-09-26
-  template: report
-  toc: true
+theme: docs
+toc: true
   brand: benchdoc
   footer: Latency regression
 ---
@@ -52,7 +52,7 @@ date: 2026-09-26
 
 If `title` is set, it's used as the document header. Otherwise the first `#` heading wins.
 
-Top bar and footer are on every page by default: the top bar shows `brand` (default `benchdoc`) + title, the footer shows `footer` (default: the title) + `Built with benchdoc`.
+Top bar and footer are on every page by default: the top bar shows the document title (or benchdoc), the footer shows `footer` (default: the title) + `Built with benchdoc`.
 
 ## What works
 
@@ -83,6 +83,23 @@ Everything normal Markdown + GFM already supports:
 
 - `<details><summary>…</summary>` → styled dropdown
 - Images with alt text → figure + caption; local images are inlined into the HTML
+- Token-usage bar (hover a segment for the breakdown):
+
+  ````markdown
+  ```tokens
+  {"input": 12500, "output": 3200, "cached": 8000}
+  ```
+  ````
+
+- Bar chart (hover a row for the value):
+
+  ````markdown
+  ```chart
+  [{"label": "atlas-large", "value": 72}, {"label": "atlas-medium", "value": 54}]
+  ```
+  ````
+
+- Donut and line take the same data via `donut` and `line` fences (see `examples/charts.md` for all three).
 
 
 

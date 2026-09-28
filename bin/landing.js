@@ -2,7 +2,7 @@
 
 /**
  * Build the landing page: src/landing.html + compiled Tailwind CSS +
- * per-theme tweakcn tokens (scoped by [data-template] so the dropdown
+ * per-theme tweakcn tokens (scoped by [data-theme] so the dropdown
  * can switch themes live) + client script → index.html (single file).
  */
 
@@ -12,7 +12,7 @@ const { loadFonts } = require('../src/render');
 
 const ROOT = path.join(__dirname, '..');
 const DIST_CSS = path.join(ROOT, 'dist', 'tailwind.css');
-const TEMPLATES_DIR = path.join(ROOT, 'templates');
+const THEMES_DIR = path.join(ROOT, 'themes');
 
 function main() {
   if (!fs.existsSync(DIST_CSS)) {
@@ -22,20 +22,20 @@ function main() {
   const compiled = fs.readFileSync(DIST_CSS, 'utf8');
 
   const names = fs
-    .readdirSync(TEMPLATES_DIR)
+    .readdirSync(THEMES_DIR)
     .filter((f) => f.endsWith('.css'))
     .map((f) => f.replace(/\.css$/, ''))
     .sort();
 
   let tokens = '';
   for (const name of names) {
-    let css = fs.readFileSync(path.join(TEMPLATES_DIR, `${name}.css`), 'utf8');
+    let css = fs.readFileSync(path.join(THEMES_DIR, `${name}.css`), 'utf8');
     css = css.replace(/\/\*[\s\S]*?\*\//g, ''); // strip comments (may mention .dark)
     css = css
       .split(':root')
-      .join(`[data-template="${name}"]`)
+      .join(`[data-theme="${name}"]`)
       .split('.dark')
-      .join(`[data-template="${name}"].dark`);
+      .join(`[data-theme="${name}"].dark`);
     tokens += css + '\n';
   }
 

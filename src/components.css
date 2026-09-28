@@ -1,0 +1,132 @@
+/*
+ * Report components: token-usage bar + bar chart.
+ * Token colors only, sharp mono chrome, zero motion.
+ * (Fence renderers live in src/plugins/tokens.js and src/plugins/charts.js.)
+ */
+
+@layer components {
+  /* —— Token-usage bar —— */
+  .token-bar {
+    @apply my-7;
+  }
+
+  .token-track {
+    @apply flex h-3 w-full overflow-hidden rounded-full bg-muted;
+  }
+
+  .token-seg {
+    @apply h-full shrink-0;
+  }
+
+  .token-seg-input {
+    @apply bg-chart-1;
+  }
+
+  .token-seg-output {
+    @apply bg-chart-2;
+  }
+
+  .token-seg-cached {
+    @apply bg-chart-5;
+  }
+
+  .token-legend {
+    @apply m-0 mt-3 flex list-none flex-wrap gap-x-6 gap-y-1.5 p-0 text-sm text-muted-foreground;
+  }
+
+  .token-legend li {
+    @apply m-0 flex items-center gap-2 p-0;
+  }
+
+  .token-dot {
+    @apply h-2.5 w-2.5 shrink-0 rounded-full;
+  }
+
+  .token-val {
+    @apply font-medium tabular-nums text-foreground;
+  }
+
+  /* —— Bar chart —— */
+  .chart {
+    @apply my-7 flex flex-col gap-2.5;
+  }
+
+  .chart-row {
+    @apply grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 md:grid-cols-[minmax(0,12rem)_minmax(0,1fr)_auto];
+  }
+
+  .chart-label {
+    @apply truncate text-sm;
+  }
+
+  .chart-track {
+    @apply col-span-full h-2.5 overflow-hidden rounded-full bg-muted md:col-span-1 md:col-start-2 md:row-start-1;
+  }
+
+  .chart-fill {
+    @apply block h-full rounded-full bg-chart-3;
+  }
+
+  .chart-fill.chart-top {
+    @apply bg-primary;
+  }
+
+  .chart-value {
+    @apply text-sm font-medium tabular-nums;
+  }
+
+  /* —— Line series (inline SVG) —— */
+  .donut-wrap {
+    @apply flex-col items-center gap-5 sm:flex-row sm:gap-7;
+  }
+
+  .donut {
+    @apply relative h-40 w-40 shrink-0 rounded-full;
+  }
+
+  .donut::after {
+    content: "";
+    position: absolute;
+    inset: 2.25rem;
+    border-radius: 9999px;
+    background: var(--background);
+  }
+
+  .donut-center {
+    @apply absolute inset-0 z-[1] flex items-center justify-center text-xl font-medium tabular-nums;
+  }
+
+  /* —— Line series (inline SVG) —— */
+  .line-svg {
+    @apply h-48 w-full md:h-56;
+  }
+
+  .line-grid {
+    stroke: var(--border);
+    stroke-width: 1;
+  }
+
+  .line-tick {
+    fill: var(--muted-foreground);
+    font-size: 11px;
+  }
+
+  .line-series {
+    fill: none;
+    stroke: var(--chart-1);
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .line-area {
+    fill: var(--chart-1);
+    fill-opacity: 0.12;
+    stroke: none;
+  }
+
+  .line-dot {
+    fill: var(--chart-1);
+    stroke: var(--background);
+    stroke-width: 1.5;
+  }
+}

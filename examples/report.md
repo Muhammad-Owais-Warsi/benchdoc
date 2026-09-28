@@ -3,7 +3,7 @@ title: Latency regression — auth service
 subtitle: Comparing main vs release/2.4 under sustained load
 author: Owais
 date: 2026-09-26
-template: docs
+theme: docs
 ---
 
 ## Summary
