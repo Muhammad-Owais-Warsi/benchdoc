@@ -26,7 +26,8 @@
   ],
   "scripts": {
     "build:css": "tailwindcss -i ./src/tailwind.css -o ./dist/tailwind.css --minify",
-    "build:landing": "npm run build:css && node bin/landing.js",
+    "build:demos": "node bin/demos.js",
+    "build:landing": "npm run build:css && npm run build:demos && node bin/landing.js",
     "prepublishOnly": "npm run build:css",
     "demo": "npm run build:css && node bin/benchdoc.js examples/report.md -o examples/report.html"
   },

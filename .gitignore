@@ -2,7 +2,8 @@ node_modules/
 package-lock.json
 examples/*.html
 *.html
-!src/template.html
+!src/theme.html
 !src/landing.html
 !index.html
+!demo/*.html
 .DS_Store
