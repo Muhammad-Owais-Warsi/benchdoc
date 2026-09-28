@@ -15,7 +15,6 @@ const ROOT = path.join(__dirname, '..');
 const DEMOS = [
   { input: 'examples/quasar.md', out: 'demo/quasar-one.html', theme: 'one' },
   { input: 'examples/quasar.md', out: 'demo/quasar-ayu.html', theme: 'ayu' },
-  { input: 'examples/charts.md', out: 'demo/charts-one.html', theme: 'one' },
 ];
 
 function main() {

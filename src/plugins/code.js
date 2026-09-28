@@ -7,7 +7,7 @@
 const TERMINAL = new Set(['bash', 'sh', 'shell', 'console', 'terminal', 'zsh', 'powershell', 'ps1', 'cmd']);
 
 // Fence languages owned by other plugins (see tokens.js, charts.js).
-const DATA_LANGS = new Set(['tokens', 'chart', 'donut', 'line']);
+const DATA_LANGS = new Set(['tokens', 'chart', 'donut', 'line', 'cards']);
 
 function plugin(md) {
   const fence =
@@ -26,7 +26,11 @@ function plugin(md) {
     // Data fences that rendered into components stay toolbar-free.
     // Their fallbacks (bad/empty data) get the normal code chrome + label.
     if (DATA_LANGS.has(lang.toLowerCase())) {
-      if (highlighted.includes('token-bar') || highlighted.includes('<figure class="chart')) {
+      if (
+        highlighted.includes('token-bar') ||
+        highlighted.includes('<figure class="chart') ||
+        highlighted.includes('cards-grid')
+      ) {
         return highlighted;
       }
     }

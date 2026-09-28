@@ -18,7 +18,7 @@ Options:
   -h, --help            Show this help
 
 Commands:
-  init [kind] [file]  Create a starter report (kinds: report, bench, compare; default file: <kind>.md)
+  init [file]           Copy the example report to start from (default: quasar.md)
   themes                List available themes
 
 Frontmatter (optional):
@@ -57,8 +57,8 @@ function main() {
     console.log(listThemes().join('\n'));
     return;
   }
-  if (args._[0] === 'init' && args._.length <= 3) {
-    initReport(args._[1], args._[2]);
+  if (args._[0] === 'init' && args._.length <= 2) {
+    initReport(args._[1]);
     return;
   }
   if (args.help || args._.length === 0) usage(args.help ? 0 : 1);
@@ -97,41 +97,21 @@ function main() {
   console.log(`Wrote ${out}`);
 }
 
-const STARTERS_DIR = path.join(__dirname, '..', 'src', 'starters');
+const EXAMPLE_FILE = path.join(__dirname, '..', 'examples', 'quasar.md');
 
-function listStarters() {
-  return fs
-    .readdirSync(STARTERS_DIR)
-    .filter((f) => f.endsWith('.md'))
-    .map((f) => f.replace(/\.md$/, ''))
-    .sort();
-}
-
-function initReport(kindOrFile, file) {
-  const kinds = listStarters();
-  let kind = 'report';
-  if (kindOrFile) {
-    if (kinds.includes(kindOrFile)) {
-      kind = kindOrFile;
-    } else if (file) {
-      console.error(`Unknown starter "${kindOrFile}". Available: ${kinds.join(', ')}`);
-      process.exit(1);
-    } else {
-      file = kindOrFile;
-    }
-  }
-  const out = path.resolve(file || `${kind}.md`);
+function initReport(file) {
+  const out = path.resolve(file || 'quasar.md');
   if (fs.existsSync(out)) {
     console.error(`File already exists: ${out}`);
     process.exit(1);
   }
   const starter = fs
-    .readFileSync(path.join(STARTERS_DIR, `${kind}.md`), 'utf8')
-    .split('{{date}}')
+    .readFileSync(EXAMPLE_FILE, 'utf8')
+    .split('2026-09-26')
     .join(new Date().toISOString().slice(0, 10));
   fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.writeFileSync(out, starter, 'utf8');
-  console.log(`Wrote ${out} (${kind} starter)`);
+  console.log(`Wrote ${out} (from examples/quasar.md)`);
   const rel = path.relative(process.cwd(), out);
   console.log(`Next: benchdoc ${rel.startsWith('..') ? out : rel}`);
 }

@@ -62,6 +62,12 @@ Export landed in the wrong region. Elapsed 121 s, 7,600 prompt tokens, $0.19.
 
 </details>
 
+## Highlights
+
+```cards
+[{"title": "Hot path clean", "text": "No failures in the core retrieval loop across all 50 trials."}, {"title": "Watch cold starts", "text": "Key-revocation failures spike in the first 90 seconds after deploy."}, {"title": "Cheapest pass", "text": "vega-medium reaches 47% at a quarter of the large-model cost."}]
+```
+
 ## Method
 
 - Harness: Harbor, 1 attempt per trial, 4 concurrent

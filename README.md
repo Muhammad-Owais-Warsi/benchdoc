@@ -16,10 +16,8 @@ npm install -g benchdoc
 ## Usage
 
 ```bash
-benchdoc init               # starter report.md in this folder
-benchdoc init bench         # benchmark starter (report, bench, compare)
-benchdoc init compare ab.md # compare starter at a path
-benchdoc init notes/q3.md   # default starter at a path
+benchdoc init               # copy examples/quasar.md here to start from
+benchdoc init notes/my.md   # copy it to a path
 benchdoc input.md
 benchdoc input.md -o out.html
 benchdoc input.md -t docs
@@ -101,6 +99,14 @@ Everything normal Markdown + GFM already supports:
   ````
 
 - Donut and line take the same data via `donut` and `line` fences (see `examples/charts.md` for all three).
+
+- Cards with the landing page look:
+
+  ````markdown
+  ```cards
+  [{"title": "One file out", "text": "Everything is inlined."}]
+  ```
+  ````
 
 
 

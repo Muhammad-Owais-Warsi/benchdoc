@@ -12,6 +12,7 @@ const anchors = require('./plugins/anchors');
 const figures = require('./plugins/figures');
 const tokens = require('./plugins/tokens');
 const charts = require('./plugins/charts');
+const cards = require('./plugins/cards');
 const codeBlocks = require('./plugins/code');
 const frontmatter = require('./frontmatter');
 
@@ -61,6 +62,7 @@ function createMarkdown(opts) {
   md.use(figures, { baseDir: opts.baseDir, embed: opts.embedImages, mime: MIME });
   md.use(tokens);
   md.use(charts);
+  md.use(cards);
   md.use(codeBlocks);
 
   return md;
@@ -190,7 +192,7 @@ function render(source, opts = {}) {
 
   const shell = fs.readFileSync(path.join(__dirname, 'theme.html'), 'utf8');
 
-  return shell
+  const out = shell
     .split('{{title}}').join(escapeHtml(title))
     .replace('{{theme}}', escapeHtml(theme))
     .replace('{{hasToc}}', toc ? 'has-toc' : 'no-toc')
@@ -201,6 +203,10 @@ function render(source, opts = {}) {
     .replace('{{body}}', () => html)
     .replace('{{headerTitle}}', () => escapeHtml(headerTitle))
     .replace('{{footerTitle}}', () => escapeHtml(footerTitle));
+  if (out.includes('{{') || !out.includes('.site-header')) {
+    throw new Error('render broken: CSS/JS did not inline. Check src/theme.html placeholders.');
+  }
+  return out;
 }
 
 module.exports = { render, listThemes, listTemplates, loadFonts };

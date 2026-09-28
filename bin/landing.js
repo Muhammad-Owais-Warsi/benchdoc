@@ -36,8 +36,8 @@ function main() {
     .join(`data-theme="${defaultTheme}"`);
 
   const out = path.join(ROOT, 'index.html');
-  if (html.includes('{{')) {
-    console.error('landing.html placeholders were mangled (look for broken {{...}}). Fix src/landing.html first.');
+  if (html.includes('{{') || !html.includes('.site-header')) {
+    console.error('landing build broken: CSS/JS did not inline. Check src/landing.html placeholders ({{css}}, {{js}}, {{landingThemeOptions}}).');
     process.exit(1);
   }
   fs.writeFileSync(out, html, 'utf8');

@@ -106,6 +106,14 @@ Some text after code inside the dropdown to check inner spacing.
 - [ ] Warm-up script before traffic cutover
 - [ ] Multi-tenant key review
 
+## Cards
+
+Same look as the landing page cards:
+
+```cards
+[{"title": "One file out", "text": "CSS, fonts, images and scripts are inlined."}, {"title": "Works offline", "text": "No CDN, no build step, no account."}, {"title": "Themed + dark mode", "text": "Light-first with a dark mode."}]
+```
+
 ---
 
 Footnote test[^1]. Final line to see footer spacing.

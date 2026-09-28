@@ -18,13 +18,7 @@
         content="Turn a Markdown file into one clean, self-contained HTML report you can share as a file." />
     <meta name="twitter:image" content="https://muhammad-owais-warsi.github.io/benchdoc/og-image.jpg" />
     <script>try {var t = localStorage.getItem('benchdoc-template'); if (t === 'zed') t = 'docs'; if (t === 'report' || t === 'paper' || t === 'kodama') t = 'docs'; if (t === 'gruvbox' || t === 'mono') t = 'docs'; if (t === 'docs' || t === 'catppuccin') t = 'one'; if (t) document.documentElement.setAttribute('data-theme', t); if (localStorage.getItem('benchdoc-theme') === 'dark') document.documentElement.classList.add('dark')} catch (e) { }</script>
-    <style>
-        {
-                {
-                css
-            }
-        }
-    </style>
+    <style>{{css}}</style>
 </head>
 
 <body>
@@ -110,7 +104,7 @@
     <footer class="site-footer">
         <div class="site-footer-inner"><span>benchdoc</span><span>Built with benchdoc</span></div>
     </footer>
-    <script>{{js} }</script>
+    <script>{{js}}</script>
     <script>
         (function () {
             var sel = document.querySelector('[data-theme-select]');
