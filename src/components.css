@@ -147,7 +147,7 @@
   }
 
   .pill-pass {
-    @apply bg-chart-2;
+    background-color: var(--ok);
   }
 
   .pill-fail {

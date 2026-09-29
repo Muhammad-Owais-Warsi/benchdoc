@@ -23,6 +23,9 @@ const STATUS_CLASS = {
   fail: 'pill-fail',
   warn: 'pill-warn',
   warning: 'pill-warn',
+  right: 'pill-pass',
+  wrong: 'pill-fail',
+  'left out': 'pill-warn',
 };
 
 function plugin(md) {
