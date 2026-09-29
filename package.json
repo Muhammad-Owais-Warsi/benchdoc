@@ -1,6 +1,6 @@
 {
   "name": "benchdoc",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Turn a Markdown file into one clean, self-contained HTML report you can share as a file.",
   "license": "MIT",
   "keywords": [
