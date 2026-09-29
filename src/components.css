@@ -104,6 +104,9 @@
   .markdown-body table.checktable {
     @apply w-full table-fixed border-collapse text-sm;
     display: table;
+    /* Floor width: below this the wrapper scrolls horizontally
+       instead of squeezing columns (matches normal-table behavior). */
+    min-width: 36rem;
   }
 
   .checktable th,

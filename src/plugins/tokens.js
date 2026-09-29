@@ -46,10 +46,10 @@ function plugin(md) {
     const vals = SEGMENTS.map((s) => ({ ...s, value: Number(data[s.key]) || 0 }));
     const total = vals.reduce((a, s) => a + s.value, 0);
     if (total <= 0) return prev(tokens, idx, options, env, self);
+    const shown = vals.filter((s) => s.value > 0);
 
     const esc = md.utils.escapeHtml;
-    const segs = vals
-      .filter((s) => s.value > 0)
+    const segs = shown
       .map((s) => {
         const pct = (s.value / total) * 100;
         return (
@@ -58,7 +58,7 @@ function plugin(md) {
         );
       })
       .join('');
-    const legend = vals
+    const legend = shown
       .map(
         (s) =>
           `<li><span class="token-dot ${s.className}"></span>` +
@@ -66,7 +66,7 @@ function plugin(md) {
           `<span class="token-val">${esc(fmt(s.value))}</span></li>`,
       )
       .join('');
-    const aria = vals.map((s) => `${s.label} ${fmt(s.value)}`).join(', ');
+    const aria = shown.map((s) => `${s.label} ${fmt(s.value)}`).join(', ');
 
     return (
       `<figure class="token-bar" role="img" aria-label="Token usage: ${esc(aria)}">` +
