@@ -96,6 +96,88 @@
     @apply absolute inset-0 z-[1] flex items-center justify-center text-xl font-medium tabular-nums;
   }
 
+  /* —— Expandable table (verdict rows) —— */
+  .checktable-wrap {
+    @apply my-7 max-w-full overflow-x-auto;
+  }
+
+  .markdown-body table.checktable {
+    @apply w-full table-fixed border-collapse text-sm;
+    display: table;
+  }
+
+  .checktable th,
+  .checktable td {
+    @apply border-b border-border px-4 py-2.5 text-left align-top break-words;
+  }
+
+  .checktable th:first-child,
+  .checktable td:first-child {
+    @apply w-24;
+  }
+
+  .checktable th {
+    @apply text-xs font-medium tracking-wide whitespace-nowrap text-muted-foreground;
+  }
+
+  .checktable tbody tr:last-child > td {
+    @apply border-b-0;
+  }
+
+  tr.checktable-row[data-expand] {
+    @apply cursor-pointer;
+  }
+
+  tr.checktable-row[data-expand]:hover > td {
+    @apply bg-muted/50;
+  }
+
+  tr.checktable-row[data-expand]:focus-visible {
+    @apply outline-2 outline-ring;
+  }
+
+  .checktable-detail > td {
+    @apply pt-1 pb-5 pl-16;
+  }
+
+  /* —— Verdict pills + labeled fields (shared by checktable) —— */
+
+  .pill {
+    @apply shrink-0 rounded px-2 py-0.5 text-[11px] font-semibold tracking-wide text-white uppercase;
+  }
+
+  .pill-pass {
+    @apply bg-chart-2;
+  }
+
+  .pill-fail {
+    @apply bg-destructive;
+  }
+
+  .pill-warn {
+    @apply bg-chart-4;
+  }
+
+  .pill-neutral {
+    @apply bg-muted-foreground;
+  }
+
+  .check-body {
+    @apply pt-1 pr-0 pb-5 pl-16;
+  }
+
+  .check-field + .check-field {
+    @apply mt-4;
+  }
+
+  .check-label {
+    @apply mb-1 text-xs tracking-widest text-muted-foreground uppercase;
+  }
+
+  .check-text {
+    @apply m-0 leading-relaxed;
+  }
+
   /* —— Line series (inline SVG) —— */
   .line-svg {
     @apply h-48 w-full md:h-56;

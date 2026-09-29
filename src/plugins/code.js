@@ -7,7 +7,7 @@
 const TERMINAL = new Set(['bash', 'sh', 'shell', 'console', 'terminal', 'zsh', 'powershell', 'ps1', 'cmd']);
 
 // Fence languages owned by other plugins (see tokens.js, charts.js).
-const DATA_LANGS = new Set(['tokens', 'chart', 'donut', 'line', 'cards']);
+const DATA_LANGS = new Set(['tokens', 'chart', 'donut', 'line', 'cards', 'checktable']);
 
 function plugin(md) {
   const fence =
@@ -29,7 +29,8 @@ function plugin(md) {
       if (
         highlighted.includes('token-bar') ||
         highlighted.includes('<figure class="chart') ||
-        highlighted.includes('cards-grid')
+        highlighted.includes('cards-grid') ||
+        highlighted.includes('checktable')
       ) {
         return highlighted;
       }

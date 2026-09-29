@@ -46,6 +46,17 @@ toc: true
 [{"label": "t-01", "value": 0.15}, {"label": "t-02", "value": 0.38}, {"label": "t-03", "value": 0.52}, {"label": "t-04", "value": 0.47}, {"label": "t-05", "value": 0.61}, {"label": "t-06", "value": 0.58}, {"label": "t-07", "value": 0.74}, {"label": "t-08", "value": 0.69}]
 ```
 
+## Checks
+
+```checktable
+{"columns": ["Status", "Check"],
+ "rows": [{"cells": ["pass", "The code actually builds"],
+   "fields": {"Applies because": "Every submission is checked for this.", "Matters because": "Code that does not type-check against the real SDK is not working code.", "Looked for": "No TypeScript errors against the SDK", "Found": "Clean", "Verdict": "Primitives are called with valid shapes."}},
+  {"cells": ["pass", "Nothing retired is used"]},
+  {"cells": ["fail", "Audit export lands in-region"],
+   "fields": {"Found": "Export landed in the wrong region.", "Verdict": "Must go to the deploy region."}}]}
+```
+
 ## Failed trials
 
 <details>

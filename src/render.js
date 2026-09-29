@@ -13,6 +13,7 @@ const figures = require('./plugins/figures');
 const tokens = require('./plugins/tokens');
 const charts = require('./plugins/charts');
 const cards = require('./plugins/cards');
+const checktable = require('./plugins/checktable');
 const codeBlocks = require('./plugins/code');
 const frontmatter = require('./frontmatter');
 
@@ -63,6 +64,7 @@ function createMarkdown(opts) {
   md.use(tokens);
   md.use(charts);
   md.use(cards);
+  md.use(checktable);
   md.use(codeBlocks);
 
   return md;

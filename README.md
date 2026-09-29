@@ -97,14 +97,24 @@ Everything normal Markdown + GFM already supports:
   [{"label": "atlas-large", "value": 72}, {"label": "atlas-medium", "value": 54}]
   ```
   ````
-
-- Donut and line take the same data via `donut` and `line` fences (see `examples/charts.md` for all three).
+- Donut and line take the same data via `donut` and `line` fences (all three demoed in `examples/quasar.md`).
 
 - Cards with the landing page look:
 
   ````markdown
   ```cards
   [{"title": "One file out", "text": "Everything is inlined."}]
+  ```
+  ````
+
+- Expandable table rows — rows with fields open in place, the rest stay static:
+
+  ````markdown
+  ```checktable
+  {"columns": ["Status", "Check"],
+   "rows": [{"cells": ["pass", "The code builds"],
+     "fields": {"Found": "Clean", "Verdict": "Valid."}},
+    {"cells": ["pass", "Nothing retired used"]}]}
   ```
   ````
 

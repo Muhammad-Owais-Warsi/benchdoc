@@ -1,6 +1,26 @@
 'use strict';
 
 (function () {
+  document.querySelectorAll('tr[data-expand]').forEach(function (row) {
+    var toggle = function () {
+      var open = row.getAttribute('aria-expanded') === 'true';
+      var next = !open;
+      row.setAttribute('aria-expanded', String(next));
+      var detail = row.nextElementSibling;
+      if (detail && detail.classList.contains('checktable-detail')) {
+        if (next) detail.removeAttribute('hidden');
+        else detail.setAttribute('hidden', '');
+      }
+    };
+    row.addEventListener('click', toggle);
+    row.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggle();
+      }
+    });
+  });
+
   document.querySelectorAll('[data-theme-toggle]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var dark = document.documentElement.classList.toggle('dark');
