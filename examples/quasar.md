@@ -93,3 +93,7 @@ Export landed in the wrong region. Elapsed 121 s, 7,600 prompt tokens, $0.19.
   year    = {2026}
 }
 ```
+
+### Images
+
+![benchdoc social preview](../og-image.jpg "benchdoc — single-file Markdown reports.")

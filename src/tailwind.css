@@ -43,7 +43,7 @@
   --chart-5: oklch(0.7 0.1 180);
   --radius: 0rem;
   --font-sans: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --font-serif: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
@@ -176,7 +176,7 @@
   }
 
   .theme-select {
-    @apply shrink-0 cursor-pointer rounded-md border border-border bg-card px-2 py-1.5 text-[13px] text-foreground;
+    @apply shrink-0 cursor-pointer rounded-md border border-transparent bg-transparent px-1.5 py-1.5 text-[13px] text-muted-foreground hover:text-foreground;
   }
 
   .live-link {
@@ -333,6 +333,21 @@
     @apply mb-0;
   }
 
+  /* Citation / quote attribution: `> quote` + `<cite>`, `— Author`,
+     or a trailing `footer` inside the quote. */
+  .markdown-body blockquote:not(.alert) cite,
+  .markdown-body blockquote:not(.alert) footer {
+    @apply mt-2 block text-sm font-normal text-muted-foreground not-italic;
+  }
+
+  .markdown-body cite {
+    @apply text-muted-foreground not-italic;
+  }
+
+  .markdown-body q {
+    quotes: "“" "”" "‘" "’";
+  }
+
   .markdown-body ul,
   .markdown-body ol {
     @apply mb-5 pl-6;
@@ -369,12 +384,42 @@
     @apply my-7 overflow-hidden rounded-lg bg-muted;
   }
 
+  /* Terminal fences (bash/sh/console/…) get window chrome so they
+     don't look like plain code. Dots are pure CSS, no markup change. */
+  .code-block.terminal {
+    @apply border border-border bg-card;
+  }
+
+  .code-block.terminal .code-header {
+    @apply bg-muted/60;
+  }
+
+  .code-block.terminal .code-lang {
+    @apply flex items-center gap-2;
+  }
+
+  .code-block.terminal .code-lang::before {
+    content: "";
+    width: 1.875rem;
+    height: 0.625rem;
+    flex-shrink: 0;
+    border-radius: 9999px;
+    background-image: radial-gradient(
+      circle at 0.3125rem 50%,
+      var(--muted-foreground) 0.1875rem,
+      transparent 0.2rem
+    );
+    background-size: 0.625rem 100%;
+    background-repeat: repeat-x;
+    opacity: 0.55;
+  }
+
   .code-header {
     @apply flex items-center justify-between gap-4 border-b border-border px-4 py-2 text-xs;
   }
 
   .code-lang {
-    @apply font-medium text-muted-foreground;
+    @apply font-mono text-xs font-medium text-muted-foreground;
   }
 
   .code-copy {
@@ -387,10 +432,27 @@
 
   .code-block pre {
     @apply m-0 max-w-full overflow-x-auto bg-transparent px-4 py-4 font-mono text-[13px] leading-7 md:px-5 md:py-5;
+    tab-size: 2;
   }
 
   .code-block pre code {
-    @apply border-0 bg-transparent p-0 font-mono text-foreground;
+    @apply border-0 bg-transparent p-0 font-mono whitespace-pre text-foreground;
+  }
+
+  /* Bare <pre> fallback: indented code and raw HTML <pre> bypass the
+     fence wrapper, so style them like a code block instead of leaving
+     them unstyled. */
+  .markdown-body > pre,
+  .markdown-body details pre,
+  .markdown-body li pre {
+    @apply my-7 max-w-full overflow-x-auto rounded-lg bg-muted px-4 py-4 font-mono text-[13px] leading-7 md:px-5 md:py-5;
+    tab-size: 2;
+  }
+
+  .markdown-body > pre code,
+  .markdown-body details pre code,
+  .markdown-body li pre code {
+    @apply border-0 bg-transparent p-0 font-mono whitespace-pre text-foreground;
   }
 
   /* —— Tables —— */
@@ -536,13 +598,54 @@
     @apply mt-1.5 h-3.5 w-3.5 shrink-0 accent-chart-2;
   }
 
-  /* —— Footnotes —— */
+  /* —— Footnotes / citations —— */
   .markdown-body .footnotes {
     @apply mt-14 border-t border-border pt-6 text-sm leading-relaxed text-muted-foreground;
   }
 
   .markdown-body .footnotes-sep {
     @apply hidden;
+  }
+
+  .markdown-body .footnotes-list {
+    @apply mb-0 pl-5;
+  }
+
+  .markdown-body .footnotes-list li {
+    @apply my-2 pl-1;
+  }
+
+  .markdown-body .footnotes-list li p {
+    @apply mb-1;
+  }
+
+  /* In-text citation markers: [^1] refs and back-links. */
+  .markdown-body sup.footnote-ref {
+    @apply font-sans text-[0.75em];
+  }
+
+  .markdown-body a.footnote-ref,
+  .markdown-body sup.footnote-ref a {
+    @apply rounded px-1 font-medium no-underline hover:bg-muted;
+  }
+
+  .markdown-body a.footnote-backref {
+    @apply ml-1 rounded px-1 font-mono text-xs no-underline hover:bg-muted;
+  }
+
+  /* Keyboard input, marks, abbreviations — small inline elements that
+     otherwise fall back to unstyled browser defaults. */
+  .markdown-body kbd {
+    @apply rounded-md border border-border bg-muted px-1.5 py-0.5 font-mono text-[0.8em] text-foreground;
+    border-bottom-width: 2px;
+  }
+
+  .markdown-body mark {
+    @apply rounded bg-chart-4/20 px-1 text-foreground;
+  }
+
+  .markdown-body abbr[title] {
+    @apply cursor-help underline decoration-dotted underline-offset-4;
   }
 
   .markdown-body del {
@@ -622,6 +725,10 @@
 
   .site-footer-inner {
     @apply mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-6 text-xs text-muted-foreground sm:px-6;
+  }
+
+  .site-footer a {
+    @apply rounded text-muted-foreground underline decoration-border underline-offset-4 hover:text-foreground hover:decoration-ring;
   }
 }
 
